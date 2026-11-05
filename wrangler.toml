@@ -1,0 +1,17 @@
+# cronflare - Cloudflare Workers Cron Job Script
+# 
+# IMPORTANT: Environment variables MUST be set via Cloudflare Dashboard
+# (Workers > Settings > Variables). Do NOT modify the vars section below
+# as it would override dashboard settings.
+#
+# Variables to set in Cloudflare Dashboard:
+#   CRON_FREQUENCY - How often to ping links (in minutes, e.g., "3")
+#   CRON_LINKS     - Comma-separated list of URLs to ping
+name = "cronflare"
+main = "index.js"
+type = "javascript"
+
+# [vars] section intentionally left empty with documentation above.
+# Environment variables CRON_FREQUENCY and CRON_LINKS must be configured
+# via the Cloudflare Dashboard > Your Worker > Settings > Variables.
+# This ensures env vars are never overridden by this configuration.

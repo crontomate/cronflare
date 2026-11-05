@@ -1,0 +1,12 @@
+{
+  "name": "cronflare",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers cron job script for pinging links at configurable intervals",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "wrangler publish",
+    "dev": "wrangler dev"
+  },
+  "keywords": ["cloudflare", "worker", "cron", "ping"],
+  "license": "MIT"
+}
