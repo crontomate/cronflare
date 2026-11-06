@@ -5,7 +5,7 @@
 # as it would override dashboard settings.
 #
 # Variables to set in Cloudflare Dashboard:
-#   CRON_FREQUENCY - How often to ping links (in minutes, e.g., "3")
+
 #   CRON_LINKS     - Comma-separated list of URLs to ping
 name = "cronflare"
 main = "index.js"

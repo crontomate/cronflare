@@ -1,4 +1,4 @@
-# cronflare
+﻿# cronflare
 
 A simple, neutral Cloudflare Workers cron job script that pings specified links at configurable intervals.
 
@@ -8,7 +8,7 @@ cronflare is a Cloudflare Workers script that runs on a schedule and pings speci
 
 ## Features
 
-- **Configurable frequency**: Set ping interval in minutes via `CRON_FREQUENCY` env var
+
 - **Multiple links**: Ping any number of URLs comma-separated via `CRON_LINKS` env var
 - **Environment-based config**: All settings via Cloudflare Dashboard (never overridden in code)
 - **Open source ready**: MIT licensed, clear documentation, no secrets hardcoded
@@ -37,8 +37,17 @@ Go to **Cloudflare Dashboard** > **Your Worker** > **Settings** > **Variables** 
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `CRON_FREQUENCY` | Minutes between pings to **each** link | `3` |
+
 | `CRON_LINKS` | Comma-separated list of URLs to ping | `https://example.com/health` |
+
+### 3b. Set the cron trigger in Cloudflare Dashboard
+
+Go to **Workers & Pages > cronflare > Triggers > Cron Triggers > Add cron trigger** and enter a cron expression matching your `CRON_FREQUENCY`.
+
+Example: for `CRON_FREQUENCY = 3`, use `*/3 * * * *` (every 3 minutes).
+
+The trigger is intentionally **not** in `wrangler.toml` — manage it in the dashboard so deploys never overwrite your schedule.
+
 
 ### 4. Deploy
 
@@ -48,11 +57,6 @@ wrangler deploy
 
 ## Configuration Examples
 
-### Ping every 3 minutes
-
-
-- `CRON_FREQUENCY`: `15`
-- `CRON_LINKS`: `https://service1.com,https://service2.com,https://service3.com`
 
 ### Custom frequency (every 10 minutes)
 
@@ -61,12 +65,11 @@ wrangler deploy
 
 ## How It Works
 
-1. Worker triggers on Cloudflare cron schedule (default frequency configured in dashboard)
-2. Reads `CRON_FREQUENCY` env var to determine interval in minutes
-3. Reads `CRON_LINKS` env var and splits by comma to get individual URLs
-4. Makes HTTP GET request to each link concurrently
-5. Waits for all pings to complete before next scheduled run
-6. Repeats on the configured schedule
+1. Worker triggers on Cloudflare cron schedule (set in Cloudflare Dashboard > Triggers > Cron Triggers)
+2. Reads `CRON_LINKS` env var... 
+3. Makes HTTP GET request to each link concurrently
+4. Waits for all pings to complete before next scheduled run
+5. Repeats on the configured schedule
 
 ## Safety & Best Practices
 
