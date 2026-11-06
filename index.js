@@ -60,7 +60,7 @@ export default {
         const response = await fetch(link, {
           method: "GET",
           // keepAlive helps maintain persistent connections
-          keepAlive: true,
+          keepalive: true,
           // timeout: 10000, // 10 second timeout
         });
         

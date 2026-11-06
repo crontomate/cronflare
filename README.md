@@ -43,7 +43,7 @@ Go to **Cloudflare Dashboard** > **Your Worker** > **Settings** > **Variables** 
 ### 4. Deploy
 
 ```bash
-wrangler publish
+wrangler deploy
 ```
 
 ## Configuration Examples
@@ -97,7 +97,7 @@ MIT License - free to use, modify, and distribute. See LICENSE for details.
 wrangler dev
 
 # Deploy to Cloudflare
-wrangler publish
+wrangler deploy
 ```
 
 ## Need Help?

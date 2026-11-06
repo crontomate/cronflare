@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "description": "Cloudflare Workers cron job script for pinging links at configurable intervals",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "deploy": "wrangler publish",
+    "deploy": "wrangler deploy",
     "dev": "wrangler dev"
   },
   "keywords": ["cloudflare", "worker", "cron", "ping"],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261013.1",
+    "wrangler": "^4.149.0"
+  }
 }

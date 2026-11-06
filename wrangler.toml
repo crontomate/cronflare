@@ -9,7 +9,7 @@
 #   CRON_LINKS     - Comma-separated list of URLs to ping
 name = "cronflare"
 main = "index.js"
-type = "javascript"
+compatibility_date = "2026-10-13"
 
 # [vars] section intentionally left empty with documentation above.
 # Environment variables CRON_FREQUENCY and CRON_LINKS must be configured
