@@ -15,7 +15,6 @@ export default {
   /**
    * Scheduled handler - called on cron trigger
    * @param {import('@cloudflare/workers-types').ScheduledEvent} event - Cloudflare event object
-   * @param {Object} env - Environment variables (CRON_FREQUENCY, CRON_LINKS) and CRON_STATE KV binding 
    * @param {Object} env - Environment variables (CRON_FREQUENCY, CRON_LINKS)
    * @param {import('@cloudflare/workers-types').ExecutionContext} ctx - Execution context
    */
@@ -55,16 +54,6 @@ export default {
     // Calculate interval in milliseconds
     const intervalMs = freq * 60 * 1000;
     
-        // Option B: KV-gated dynamic frequency. The trigger fires every minute,
-    // but we only ping when `freq` minutes have elapsed since the last run.
-    if (env.CRON_STATE) {
-      const last = Number(await env.CRON_STATE.get("lastPing") ?? 0);
-      if (Number.isFinite(last) && Date.now() - last < intervalMs) {
-        return; // not due yet
-      }
-    }
-
-
     // Ping each link concurrently
     const promises = links.map(async (link) => {
       try {
@@ -83,10 +72,6 @@ export default {
       }
     });
     
-        if (env.CRON_STATE) {
-      ctx.waitUntil(env.CRON_STATE.put("lastPing", String(Date.now())));
-    }
-
     // Wait for all pings to complete
     await Promise.all(promises);
   }

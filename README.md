@@ -1,4 +1,4 @@
-﻿# cronflare
+# cronflare
 
 A simple, neutral Cloudflare Workers cron job script that pings specified links at configurable intervals.
 
@@ -40,16 +40,6 @@ Go to **Cloudflare Dashboard** > **Your Worker** > **Settings** > **Variables** 
 | `CRON_FREQUENCY` | Minutes between pings to **each** link | `3` |
 | `CRON_LINKS` | Comma-separated list of URLs to ping | `https://example.com/health` |
 
-### 3b. Create the KV namespace (for dynamic frequency)
-
-The worker triggers every minute and uses a Cloudflare KV store (`CRON_STATE`) to decide when `CRON_FREQUENCY` minutes have elapsed since the last ping. Create it once:
-
-```bash
-wrangler kv namespace create CRON_STATE
-```
-
-Paste the returned namespace id into `wrangler.toml` under `[[kv_namespaces]]` (`binding = "CRON_STATE"`). Then deploy.
-
 ### 4. Deploy
 
 ```bash
@@ -71,12 +61,12 @@ wrangler deploy
 
 ## How It Works
 
-1. Worker triggers every minute on the Cloudflare cron schedule (`* * * * *`)
-2. Reads `CRON_FREQUENCY` env var (minutes) and checks the `CRON_STATE` KV store to see if that many minutes have elapsed since the last run; exits early if not due yet
+1. Worker triggers on Cloudflare cron schedule (default frequency configured in dashboard)
+2. Reads `CRON_FREQUENCY` env var to determine interval in minutes
 3. Reads `CRON_LINKS` env var and splits by comma to get individual URLs
 4. Makes HTTP GET request to each link concurrently
-5. Waits for all pings to complete, then records the run time in KV
-6. Repeats every minute, pinging only when `CRON_FREQUENCY` minutes have passed
+5. Waits for all pings to complete before next scheduled run
+6. Repeats on the configured schedule
 
 ## Safety & Best Practices
 
@@ -90,10 +80,10 @@ wrangler deploy
 
 ```
 cronflare/
-â”œâ”€â”€ package.json       # Project dependencies and scripts
-â”œâ”€â”€ wrangler.toml      # Wrangler config (env vars via Dashboard, not overridden here)
-â”œâ”€â”€ index.js          # Main Worker script
-â””â”€â”€ README.md         # This documentation
+├── package.json       # Project dependencies and scripts
+├── wrangler.toml      # Wrangler config (env vars via Dashboard, not overridden here)
+├── index.js          # Main Worker script
+└── README.md         # This documentation
 ```
 
 ## License
@@ -115,5 +105,3 @@ wrangler deploy
 - Cloudflare Workers Docs: https://developers.cloudflare.com/workers/
 - Wrangler Docs: https://developers.cloudflare.com/workers/wrangler/
 - Open an issue in the repository for bugs or feature requests
-
-
