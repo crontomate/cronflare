@@ -11,6 +11,13 @@ name = "cronflare"
 main = "index.js"
 compatibility_date = "2026-10-13"
 
+[triggers]
+crons = ["* * * * *"]
+
+[[kv_namespaces]]
+binding = "CRON_STATE"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
 # [vars] section intentionally left empty with documentation above.
 # Environment variables CRON_FREQUENCY and CRON_LINKS must be configured
 # via the Cloudflare Dashboard > Your Worker > Settings > Variables.
